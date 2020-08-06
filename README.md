@@ -31,3 +31,34 @@ Regardless of how far you take the solution towards completion, please assume yo
 Let us know if you have any questions, and we look forward to seeing your approach.
 
 Good Luck!
+
+
+# Solution submitted
+
+- Completed CRUD (Create, Read, Update , Delete) functionality of Greetings with REST API
+- Added tests for Controller & Service layers for each of CRUD functionality
+- Added a  HTML proof-of-concept which uses jquery to communicate with spring boot server
+   UI is placed at index.html , as a result UI loads at localhost:8080/
+
+## API Design 
+
+- Create : POST request with messgae as json data in request body. chooses a RANDOM id for the greeting
+			returns 200 with created  message in the response body
+- Read : GET request with ID as URL parameter 
+- Update : a PUT request to update existing resource, creates the resource if id is missing. 
+            update is designed in accordance of https://tools.ietf.org/html/rfc7231#section-4.3.4
+			returns 200 with created / updated message in the response body
+- Delete : DELETE request with ID as URL parameter
+			returns 404 if ID is missing , 200 with no content on success
+			
+returns 422 with possible errors for bad requests
+
+## UI Design
+
+- radio button to choose between Create ,Get, Update & Delete functionality. 
+- 1 button 'Go' to fire off the query
+- 2 text boxes : Id , Message
+- Result text area which shows success if there were no errors 
+	or displays as the error message sent by the server
+-  Based on the seleted mode , an appropriate REST API call is made using jQuery 
+

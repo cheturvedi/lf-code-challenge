@@ -35,7 +35,19 @@ public class HelloController {
 	}
 
 	@RequestMapping(value = "/hello", method = RequestMethod.POST)
+	@ResponseBody
 	public Greeting createGreeting(@RequestBody Greeting request) {
 		return helloWorldService.createGreeting(request);
+	}
+	
+	@RequestMapping(value = "/hello/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Greeting updateGreeting(@PathVariable String id,@RequestBody Greeting request) {
+		return helloWorldService.updateGreeting(id,request);
+	}
+	
+	@RequestMapping(value = "/hello/{id}", method = RequestMethod.DELETE)
+	public void deleteGreeting(@PathVariable String id) {
+		helloWorldService.deleteGreeting(id);
 	}
 }

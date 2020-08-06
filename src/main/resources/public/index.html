@@ -1,0 +1,119 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+ $( document ).ready(function() {
+        $.get("http://localhost:8080/hello",function(greeting){
+			$("#greetingId").val(greeting['id']);
+			$("#greetingMsg").val(greeting['message']);
+		});
+		
+				
+		$('#go').click(function(){
+		
+			if($('#create').is(':checked')){
+				var req = 	{
+							
+							"message" : $("#greetingMsg").val()
+							}
+						
+				$.ajax ({
+							url: "/hello",
+							type: "POST",
+							data: JSON.stringify(req),
+							dataType: "json",
+							contentType: "application/json; charset=utf-8",
+							success: function(greeting){
+								$("#greetingId").val(greeting['id']);
+								$("#greetingMsg").val(greeting['message']);
+								$("#result").val("Success!");
+							},
+							error : function(err){
+								$("#greetingId").val('');
+								$("#greetingMsg").val('');
+								$("#result").val(err.responseText);
+							}
+						});
+				
+			}
+			else if($('#get').is(':checked')){
+			
+				var url = '/hello/'+$("#greetingId").val()
+				$.get(url,function(greeting){
+					$("#greetingId").val(greeting['id']);
+					$("#greetingMsg").val(greeting['message']);
+					$("#result").val("Success!");
+				})
+				.fail(function(err){
+					$("#greetingId").val('');
+					$("#greetingMsg").val('');
+					$("#result").val(err.responseText);
+					
+				});
+			}
+			else if($('#update').is(':checked')){
+				var req = 	{
+							"id" : $("#greetingId").val(),
+							"message" : $("#greetingMsg").val()
+							}
+						
+				$.ajax ({
+							url: '/hello/'+$("#greetingId").val(),
+							type: 'PUT',
+							data: JSON.stringify(req),
+							dataType: "json",
+							contentType: "application/json; charset=utf-8",
+							success: function(greeting){
+								$("#greetingId").val(greeting['id']);
+								$("#greetingMsg").val(greeting['message']);
+								$("#result").val("Success!");
+							},
+							error : function(err){
+								$("#greetingId").val('');
+								$("#greetingMsg").val('');
+								$("#result").val(err.responseText);
+							}
+						});
+
+			}
+			else if($('#delete').is(':checked')){
+
+				$.ajax ({
+							url: '/hello/'+$("#greetingId").val(),
+							type: 'DELETE',
+							success: function(greeting){
+								$("#greetingId").val('');
+								$("#greetingMsg").val('');
+								$("#result").val("Success!");
+							},
+							error : function(err){
+								$("#greetingId").val('');
+								$("#greetingMsg").val('');
+								$("#result").val(err.responseText);
+							}
+						});				
+			}
+		});
+		
+
+});
+	
+ 
+</script>
+<body>
+<BR>
+<input type="radio" id='create' name='rest' value='create'> Create</input><BR>
+<input type="radio" id='get'  name='rest' value='get' checked> Get</input><BR>
+<input type="radio" id='update' name='rest' value='update'> Update</input><BR>
+<input type="radio" id='delete' name='rest' value='delete'> Delete</input><BR>
+
+<center>
+ID: <input type="text" id="greetingId" /><BR> <BR>
+Message : <input type="text" id="greetingMsg"  />
+<BR> <BR>
+<button id='go'> Go</button>
+<BR> <BR>
+Result : <textarea id="result"  rows="8" cols="50"> </textarea>
+</center>
+<center>
+</body>
